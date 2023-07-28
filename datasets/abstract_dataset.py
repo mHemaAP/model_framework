@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 try:
-    from utils.common import visualize_dataset_images
+    from ..utils.common import visualize_dataset_images
 except ModuleNotFoundError:
     from utils import visualize_dataset_images
 #from utils import visualize_dataset_images

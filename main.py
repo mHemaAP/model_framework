@@ -1,7 +1,7 @@
-from utils.model_training import trainModel
-from utils.common import *
-from models.resnet import ResNet18
-from datasets.cifar10_dataset import cifar10Set
+from .utils.model_training import trainModel
+from .utils.common import *
+from .models.resnet import ResNet18
+from .datasets.cifar10_dataset import cifar10Set
 
 # try:
 #     from epoch.utils import set_seed, model_summary
