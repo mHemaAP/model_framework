@@ -3,16 +3,6 @@ from .utils.common import *
 from .models.resnet import ResNet18
 from .datasets.cifar10_dataset import cifar10Set
 
-# try:
-#     from epoch.utils import set_seed, model_summary
-#     from epoch.utils.experiment import Experiment
-#     from epoch.models.resnet import ResNet18
-#     from epoch.datasets import CIFAR10
-# except ModuleNotFoundError:
-#     from utils.misc import set_seed, model_summary
-#     from utils.experiment import Experiment
-#     from models import *
-#     from datasets import *
 
 SEED = 11
 
@@ -34,7 +24,7 @@ else:
 
 cifar10_data = cifar10Set(batch_size, shuffle=True)
 
-model = ResNet18()
+resnet18_model = ResNet18()
 
 # Network Summary
 def model_summary(model, input_size=None, depth=10):
@@ -52,7 +42,7 @@ def create_model_train_instance(model, dataset, epochs, loss_criterion, schedule
 
 def main(loss_criterion='CE', epochs=20, scheduler='one_cycle', optimizer ='SGD'):
     
-    train_model1 = create_model_train_instance(model, 
+    train_model1 = create_model_train_instance(resnet18_model, 
                                                cifar10_data, 
                                                epochs=epochs, 
                                                loss_criterion=loss_criterion,
@@ -62,7 +52,7 @@ def main(loss_criterion='CE', epochs=20, scheduler='one_cycle', optimizer ='SGD'
     train_model1.display_model_stats()
     
     train_model1.show_cifar10_incorrect_predictions()
-    train_model1.show_cifar10_incorrect_predictions(enable_grad_cams=True)
+    train_model1.show_cifar10_incorrect_predictions(enable_grad_cam=True)
 
 
 if __name__ == '__main__':

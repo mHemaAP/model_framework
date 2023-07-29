@@ -15,7 +15,6 @@ class trainModel():
     """ Class to encapsulate model training """
 
     def __init__(self, model,
-                 #train, test,
                  dataset, 
                  epochs=20, 
                  loss_criterion='CE',
@@ -35,12 +34,8 @@ class trainModel():
         elif(loss_criterion == 'CE'):
             self.loss_function = torch.nn.CrossEntropyLoss()        
 
-        # self.train = train
-        # self.test = test
         self.epochs = epochs
         self.dataset = dataset
-        # self.train_loader = dataset.train_loader
-        # self.test_loader = dataset.test_loader        
 
 
         if scheduler == 'one_cycle':
@@ -60,17 +55,6 @@ class trainModel():
             
         self.test = test
 
-        # self.train = train(model=self.model,
-        #                     device=self.device,
-        #                     train_loader=self.dataset.train_loader, 
-        #                     optimizer=self.optimizer, 
-        #                     scheduler=self.scheduler,
-        #                     loss_criterion = self.loss_function)
-            
-        # self.test = test(model=self.model,
-        #                 device=self.device,
-        #                 test_loader=self.dataset.test_loader,
-        #                 loss_criterion = self.loss_function)        
 
         self.train_loss = []
         self.test_loss = []
@@ -124,11 +108,8 @@ class trainModel():
             f'| Epoch | {"LR":8} | {"Time":7} | {"TrainLoss":7} | {"TrainAcc":7} | {"TestLoss":7} | {"TestAcc":7} |')
 
         for epoch in range(self.epochs):
-            #self.lr_schedule.append(self.optimizer.param_groups[0]['lr'])
 
             self.start_time = time.time()
-            # train_loss, train_accuracy = self.train()
-            # test_loss, test_accuracy = self.test()
             train_loss, train_accuracy = self.train(model=self.model,
                                                     device=self.device,
                                                     train_loader=self.dataset.train_loader, 
@@ -181,7 +162,7 @@ class trainModel():
 
     ### Display the incorrect predictions of the CIFAR10 data images
     def show_cifar10_incorrect_predictions(self, figsize=None, 
-                                           denormalize=True, grad_cam=False):
+                                           denormalize=True, enable_grad_cam=False):
         
         model1_incorrect_pred = get_incorrect_test_predictions(self.model,
                                                     self.device,
@@ -195,7 +176,7 @@ class trainModel():
             pred = model1_incorrect_pred["predicted_vals"][i]
             gtruth = model1_incorrect_pred["ground_truths"][i]
 
-            if (grad_cam==True):
+            if (enable_grad_cam==True):
                 denorm_img = self.dataset.de_transform_image(img).cpu().numpy()
 
                 img = get_gradcam_transform(self.model, img, 
@@ -206,7 +187,6 @@ class trainModel():
 
             if self.dataset.classes is not None:
                 pred = f'P{pred}:{self.dataset.classes[pred]}'
-                #repr(pred) + " vs " + repr(gtruth)
                 gtruth = f'A{gtruth}:{self.dataset.classes[gtruth]}'
             
             label = f'{pred}::{gtruth}'

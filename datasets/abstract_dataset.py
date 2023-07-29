@@ -8,7 +8,6 @@ try:
     from ..utils.common import visualize_dataset_images
 except ModuleNotFoundError:
     from utils import visualize_dataset_images
-#from utils import visualize_dataset_images
 
 
 class dataSet(ABC):
